@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+# based on https://discuss.pytorch.org/t/pytorch-fails-to-over-fit-boston-housing-dataset/40365
 
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
