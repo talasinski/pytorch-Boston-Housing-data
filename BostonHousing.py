@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPRegressor
@@ -20,31 +17,19 @@ X,y   = (boston.data, boston.target)
 dim = X.shape[1]
 
 
-# In[3]:
-
-
 X.shape
 
 y
 
-
+# Skip the next four lines if BostonHousing.csv is not available.
 house = pd.read_csv('BostonHousing.csv')
-
 print(house.head(10))
-
-
 house.hist(column='medv', bins=50)
 plt.show()
-
-# In[13]:
-
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.9, random_state=0)
 num_train = X_train.shape[0]
 X_train
-
-
-# In[23]:
 
 
 torch.set_default_dtype(torch.float64)
@@ -58,9 +43,6 @@ criterion = nn.MSELoss()
 opt = torch.optim.Adam(net.parameters(), lr = .0005)
 
 
-# In[24]:
-
-
 num_epochs = 8000
 #from torch.utils.data import TensorDataset, DataLoader
 y_train_t =torch.from_numpy(y_train).clone().reshape(-1, 1)
@@ -69,10 +51,6 @@ x_train_t =torch.from_numpy(X_train).clone()
 #loader = DataLoader(dataset=dataset, batch_size=128, shuffle=True)
 losssave = []
 stepsave = []
-
-
-# In[26]:
-
 
 for i in range(num_epochs):
     y_hat = net(x_train_t)
@@ -87,11 +65,6 @@ for i in range(num_epochs):
     if i > 0 and i % 100 == 0:
         print('Epoch %d, loss = %g acc = %g ' % (i, loss,  accuracy))
 
-
-# In[27]:
-
-
-
 ss=np.array(stepsave)
 ss.shape
 sl =np.array(losssave)
@@ -101,18 +74,11 @@ sl.shape
 #ss.reshape(8000)
 #sl.reshape(8000)
 
-
-# In[28]:
-
-
 py = net(torch.DoubleTensor(X_train))
 plt.plot(sl, '+')
 plt.xlabel('Actual value of training set')
 plt.ylabel('Prediction')
 plt.show()
-
-# In[29]:
-
 
 ypred = net(torch.from_numpy(X_test).detach())
 err = ypred.detach().numpy() - y_test
@@ -120,8 +86,6 @@ mse = np.mean(err*err)
 print(np.sqrt(mse))
 plt.plot(ypred.detach().numpy(),y_test, '+')
 plt.show()
-
-# In[ ]:
 
 
 model = MLPRegressor(
@@ -149,16 +113,6 @@ plt.show()
 err = y_train - model.predict(X_train)
 mse = np.mean(err**2)
 
-
-# In[ ]:
-
-
 plt.plot(py)
 py.mean()
-
-
-# In[ ]:
-
-
-
 
